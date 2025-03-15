@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gelişmiş Glassmorphism Profil Kartı</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1f3c, #0e1538);
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .background {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .background span {
+            position: absolute;
+            pointer-events: none;
+            background: #fff;
+            animation: animate 5s linear infinite;
+        }
+
+        @keyframes animate {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0.5) rotate(0deg);
+            }
+            10%, 90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) scale(1) rotate(360deg);
+            }
+        }
+
+        .card {
+            position: relative;
+            width: 350px;
+            height: 500px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            z-index: 10;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+            transform: skewX(345deg);
+        }
+
+        .card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 35px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .neon-border {
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 20px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .neon-border::before,
+        .neon-border::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 20px;
+            filter: blur(20px);
+        }
+
+        .neon-border::before {
+            background: linear-gradient(45deg, #8a2be2, #00bfff, #4b0082, #00ffff);
+            background-size: 400%;
+            opacity: 0;
+            animation: neonGlow 8s linear infinite;
+            transition: opacity 0.5s ease;
+        }
+
+        .neon-border::after {
+            background: linear-gradient(45deg, #8a2be2, #00bfff, #4b0082, #00ffff);
+            background-size: 400%;
+            opacity: 0;
+            animation: neonGlow 8s linear infinite;
+            transition: opacity 0.5s ease;
+        }
+
+        .card:hover .neon-border::before,
+        .card:hover .neon-border::after {
+            opacity: 0.5;
+        }
+
+        @keyframes neonGlow {
+            0% {
+                background-position: 0 0;
+            }
+            50% {
+                background-position: 400% 0;
+            }
+            100% {
+                background-position: 0 0;
+            }
+        }
+
+        .profile-img {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 25px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-img img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-img::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            background: linear-gradient(45deg, #8a2be2, #00bfff) border-box;
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) padding-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover .profile-img::after {
+            opacity: 1;
+        }
+
+        .content {
+            width: 100%;
+            text-align: center;
+            color: #fff;
+            z-index: 1;
+        }
+
+        .content h2 {
+            font-size: 2em;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            background: linear-gradient(to right, #8a2be2, #00bfff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .content span {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.9);
+            display: block;
+            margin-bottom: 20px;
+            font-weight: 300;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+            letter-spacing: 1px;
+        }
+
+        .content p {
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
+            line-height: 1.6em;
+            padding: 0 10px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .stats .stat {
+            flex: 1;
+            text-align: center;
+            padding: 12px 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin: 0 5px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats .stat:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .stats .stat h3 {
+            font-size: 1.5em;
+            margin-bottom: 4px;
+            background: linear-gradient(45deg, #8a2be2, #00bfff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+
+        .stats .stat p {
+            font-size: 0.7em;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        .social-icons a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: linear-gradient(45deg, #8a2be2, #00bfff);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-icons a i {
+            color: #fff;
+            font-size: 1.2em;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-icons a:hover::after {
+            opacity: 0.8;
+        }
+
+        .social-icons a:hover i {
+            transform: scale(1.1);
+        }
+
+        .btn {
+            margin-top: 25px;
+            padding: 12px 35px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            color: #fff;
+            font-size: 0.9em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(45deg, #8a2be2, #00bfff);
+            transition: all 0.4s ease;
+            z-index: -1;
+            border-radius: 30px;
+        }
+
+        .btn:hover::before {
+            width: 100%;
+        }
+
+        .btn:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+        }
+
+        /* Card inner glow effect */
+        .inner-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            pointer-events: none;
+            background: radial-gradient(
+                circle at 50% 50%,
+                rgba(255, 255, 255, 0.1),
+                transparent 60%
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover .inner-glow {
+            opacity: 0.8;
+        }
+
+        /* Custom scrollbar for card content if needed */
+        .content::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        @media (max-width: 400px) {
+            .card {
+                width: 320px;
+                height: auto;
+                padding: 25px;
+            }
+
+            .profile-img {
+                width: 120px;
+                height: 120px;
+            }
+
+            .content h2 {
+                font-size: 1.7em;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .stats .stat {
+                margin: 5px 0;
+            }
+
+            .social-icons {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="background" id="background"></div>
+        <div class="card">
+            <div class="neon-border"></div>
+            <div class="inner-glow"></div>
+            <div class="profile-img">
+                <img src="profile.jpg" alt="Profil Resmi">
+            </div>
+            <div class="content">
+                <h2 class="name">Adil Oğuz</h2>
+                <span class="title">Frontend & Mobil Uygulama Geliştiricisi</span>
+                <div class="stats">
+                <div class="social-icons">
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Dribbble"><i class="fab fa-dribbble"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+                
+                <a href="balon3.html">
+  <button class="btn">Geri dön</button>
+</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            createBackground();
+            setupHoverEffects();
+        });
+
+        function createBackground() {
+            const background = document.getElementById('background');
+            
+            for (let i = 0; i < 50; i++) {
+                const span = document.createElement('span');
+                span.style.width = Math.random() * 8 + 2 + 'px';
+                span.style.height = span.style.width;
+                span.style.top = Math.random() * 100 + 'vh';
+                span.style.left = Math.random() * 100 + 'vw';
+                span.style.opacity = Math.random() * 0.5 + 0.1;
+                
+                // Rastgele animasyon süresi ve gecikme
+                const duration = Math.random() * 15 + 5;
+                const delay = Math.random() * 5;
+                
+                span.style.animation = `animate ${duration}s linear infinite`;
+                span.style.animationDelay = delay + 's';
+                
+                background.appendChild(span);
+            }
+        }
+
+        function setupHoverEffects() {
+            const card = document.querySelector('.card');
+            
+            card.addEventListener('mousemove', function(e) {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                // Daha yumuşak dönüş efekti
+                const rotateX = (y - centerY) / 40;
+                const rotateY = (centerX - x) / 40;
+                
+                this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-15px)`;
+                
+                // İç ışık efekti
+                const innerGlow = this.querySelector('.inner-glow');
+                innerGlow.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255, 255, 255, 0.15), transparent 60%)`;
+            });
+            
+            card.addEventListener('mouseout', function() {
+                this.style.transform = 'translateY(-15px)';
+                const innerGlow = this.querySelector('.inner-glow');
+                innerGlow.style.background = 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1), transparent 60%)';
+            });
+
+            // Sosyal medya butonları için hover efekti
+            const socialButtons = document.querySelectorAll('.social-icons a');
+            socialButtons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.1)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Stats hover efekti
+            const stats = document.querySelectorAll('.stats .stat');
+            stats.forEach(stat => {
+                stat.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                stat.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        }
+    </script>
+</body>
+</html>
